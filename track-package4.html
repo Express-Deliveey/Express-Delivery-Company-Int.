@@ -72,6 +72,90 @@
          z-index: 999;
       }
 
+      @media only screen and (max-width: 720px) {
+          #packageStatus {
+         position: absolute;
+         top: 200px;
+         right: 20px;
+         background: white;
+         padding: 10px 18px;
+         border-radius: 10px;
+         font-weight: bold;
+         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+         z-index: 999;
+      }
+
+       #shippingPanel {
+         position: absolute;
+        margin-top: 40%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         width: 90%;
+         max-width: 400px;
+         background: white;
+         padding: 20px;
+         border-radius: 16px;
+         box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+         z-index: 999;
+         display: none;
+      }
+
+      #closePanel {
+         position: absolute;
+         top: 10px;
+         right: 14px;
+         font-size: 42px;
+         background: none;
+         border: none;
+         cursor: pointer;
+         color: #aaa;
+      }
+
+      }
+
+        @media only screen and (max-width: 375px) {
+          #packageStatus {
+         position: absolute;
+         top: 190px;
+         right: 20px;
+         background: white;
+         padding: 10px 18px;
+         border-radius: 10px;
+         font-weight: bold;
+         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+         z-index: 999;
+      }
+
+       #shippingPanel {
+         position: absolute;
+        margin-top: 40%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         width: 80%;
+         max-width: 350px;
+         background: white;
+         padding: 20px;
+         border-radius: 16px;
+         box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+         z-index: 999;
+         display: none;
+      }
+
+      #closePanel {
+         position: absolute;
+         top: 10px;
+         right: 14px;
+         font-size: 42px;
+         background: none;
+         border: none;
+         cursor: pointer;
+         color: #aaa;
+      }
+
+      }
+
+
+
       /* Shipping panel */
       #shippingPanel {
          position: absolute;
@@ -157,34 +241,6 @@
             padding: 8px;
          }
       }
-
-      @media (max-width: 768px) {
-  #shippingPanel {
-    width: 90%;
-    padding: 15px;
-  }
-  .switch-tabs button {
-    font-size: 16px;
-    padding: 10px;
-  }
-  #infoPanel {
-    width: 90%;
-    padding: 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  #togglePanelBtn {
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
-  }
-  #packageStatus {
-    font-size: 14px;
-    padding: 8px 12px;
-  }
-}
-
 
       /* Info Wrapper next to Show Details button */
       #infoWrapper {
@@ -354,7 +410,7 @@ margin-left: 50%;" >Start</button>
 
       <!-- Top-right status -->
       <div id="packageStatus">
-         📍package in <span id="currentCountry">Loading...</span>
+         📍package in <span id="currentCountry">United Kingdom</span>
       </div>
 
       <!-- Centered shipping panel -->
@@ -447,8 +503,8 @@ margin-left: 50%;" >Start</button>
   height: 10px;
   border-radius: 50%;
   background-color: blue;
-  left: 80%;
-  top: 51%; /* adjust to your desired y-position */
+  left: 79%;
+  top: 48%; /* adjust to your desired y-position */
 }
 
 img {
@@ -461,64 +517,77 @@ img {
 
 
 <script>
+// Get the dot and buttons elements
 const dot = document.getElementById('dot');
 const startButton = document.getElementById('start-button');
 const stopButton = document.getElementById('stop-button');
+
+// Define the positions and speed
+let startPositionX = 47; // Start position X
+let startPositionY = 26; // Start position Y
+let stopPositionX = 79; // Stop position X
+let stopPositionY = 49; // Stop position Y
+let speedX = (stopPositionX - startPositionX) / 100; // Calculate speed X
+let speedY = (stopPositionY - startPositionY) / 100; // Calculate speed Y
+
+// Initialize variables
 let animationId;
-let x = 49;
-let y = 28;
-let speedX = 1.04; // adjust to your desired speed
-let speedY = 0.03;
-let stopPositionX = 80;
-let stopPositionY = 801;
+let x = startPositionX;
+let y = startPositionY;
 let isRunning = false;
 
-
-
+// Set initial dot position
 dot.style.left = x + '%';
 dot.style.top = y + '%';
-startButton.addEventListener('click', () => {
-  animationId = animationId || setInterval(() => {
-    if (x < stopPositionX) {
-    x += speedX;
-    dot.style.left = x + '%';
-    } else {
-         clearInterval(animationId);
-  animationId = null;
-    }
-     if (y < stopPositionY) {
+
+// Function to animate the dot
+function animateDot() {
+  if (!isRunning) {
+    isRunning = true;
+    animationId = setInterval(() => {
+      if (x < stopPositionX) {
+        x += speedX;
+        dot.style.left = x + '%';
+      }
+      if (y < stopPositionY) {
         y += speedY;
-    dot.style.top = y + '%';
-     } else {
-         clearInterval(animationId);
-  animationId = null;
-     }
-    if (x > 200) { // adjust to your image width
-      x = 68;
-    }
-     if (y > 100) { // adjust to your image height
-      y = 27;
-    }
+        dot.style.top = y + '%';
+      }
+      if (x >= stopPositionX && y >= stopPositionY) {
+        clearInterval(animationId);
+        animationId = null;
+        isRunning = false;
+        // Reset dot position
+        x = startPositionX;
+        y = startPositionY;
+        dot.style.left = x + '%';
+        dot.style.top = y + '%';
+      }
+    }, 160); // 16ms = 60fps
+  }
+}
 
-    
-  }, 1600); // 16ms = 60fps
- 
-});
-
+// Start animation when page loads
 window.addEventListener('load', () => {
   animateDot();
 });
 
+// Start button event listener
+startButton.addEventListener('click', () => {
+  animateDot();
+});
+
+// Stop button event listener
 stopButton.addEventListener('click', () => {
   clearInterval(animationId);
   animationId = null;
-//   x =0;
+  isRunning = false;
 });
 
 // Optional: add a timer to stop the animation after a certain time
-// setTimeout(() => {
-//   clearInterval(animationId);
-// }, 1000000); // stop after 5 seconds
+setTimeout(() => {
+  clearInterval(animationId);
+}, 100000); // stop after 5 seconds
 </script>
 
 
@@ -530,7 +599,7 @@ stopButton.addEventListener('click', () => {
          const loader = document.getElementById("loaderOverlay");
          setTimeout(() => {
             loader.classList.add("hide");
-         }, 500); // 10 seconds
+         }, 1000); // 10 seconds
       });
       // document.addEventListener("DOMContentLoaded", function () {
       //    const svg = document.getElementById("world-map");
@@ -641,6 +710,5 @@ stopButton.addEventListener('click', () => {
 
    </script>
 </body>
-
 
 </html>
