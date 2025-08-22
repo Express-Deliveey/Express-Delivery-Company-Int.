@@ -158,6 +158,34 @@
          }
       }
 
+      @media (max-width: 768px) {
+  #shippingPanel {
+    width: 90%;
+    padding: 15px;
+  }
+  .switch-tabs button {
+    font-size: 16px;
+    padding: 10px;
+  }
+  #infoPanel {
+    width: 90%;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  #togglePanelBtn {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  #packageStatus {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}
+
+
       /* Info Wrapper next to Show Details button */
       #infoWrapper {
          position: absolute;
@@ -613,5 +641,6 @@ stopButton.addEventListener('click', () => {
 
    </script>
 </body>
+
 
 </html>
